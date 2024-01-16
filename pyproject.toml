@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "jira-commit-msg"
+version = "0.1.0"
+description = "A pre-commit compliant hook to add JIRA ticket data to commit msg"
+authors = ["Louis-Amaury Chaib <louisamaury.chaib@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+packages = [{include = "*.py", from = "src"}]
+
+[tool.poetry.scripts]
+jira-commit-msg = "jira_commit_msg:main"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+typer = "^0.9.0"
+typing-extensions = "^4.9.0"
+gitpython = "^3.1.41"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+mypy = "^1.8.0"
+ruff = "^0.1.13"
+black = "^23.12.1"
+pytest-coverage = "^0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = "-vv"
+testpaths = [
+    "."
+]
+
+[tool.coverage.paths]
+sources = ["src/"]
+
+[tool.coverage.run]
+relative_files = true
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 100
+skip_empty = true
+skip_covered = true

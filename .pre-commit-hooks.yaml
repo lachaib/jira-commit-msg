@@ -1,0 +1,7 @@
+- id: jira-commit-msg
+  name: JIRA commit message hook
+  description: Link JIRA issue ids from branch name to commit message
+  entry: jira-commit-msg
+  language: python
+  always_run: true
+  stages: [prepare-commit-msg]

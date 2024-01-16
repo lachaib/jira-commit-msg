@@ -1,0 +1,3 @@
+tests: Add a test for the conventional commit support
+
+Closes: #AA-123

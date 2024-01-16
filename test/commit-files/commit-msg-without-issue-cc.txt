@@ -1,0 +1,1 @@
+tests: Add a test for the conventional commit support
