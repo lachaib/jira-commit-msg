@@ -3,19 +3,20 @@ from re import compile as regex
 from typing import Optional
 
 from git import Repo
-from typer import Typer, Option, echo, Exit
+from typer import Exit, Option, Typer, echo
 from typing_extensions import Annotated
-
 
 main = Typer()
 
 JIRA_ISSUE_REGEX = regex(r"(?P<issue_id>[A-Z]+-\d+)")
+
 
 def branch_name(repo: Optional[Repo] = None):
     """Get branch name from git repo"""
     if repo is None:
         repo = Repo(Path.cwd())
     return repo.active_branch.name
+
 
 @main.command()
 def prepare_commit_msg(
@@ -27,12 +28,15 @@ def prepare_commit_msg(
             envvar="COMMIT_MSG_FILE",
         ),
     ],
-    branch_name: Annotated[str, Option(hidden=True, default_factory=branch_name)], # enable dependency injection for testing
+    branch_name: Annotated[
+        str, Option(hidden=True, default_factory=branch_name)
+    ],  # enable dependency injection for testing
     use_conventional_commit: Annotated[
         bool, Option(help="Use Conventional Commit", envvar="USE_CONVENTIONAL_COMMIT")
     ] = False,
     force_issue_id: Annotated[
-        bool, Option(help="Force an issue id to be present in branch name or commit message")
+        bool,
+        Option(help="Force an issue id to be present in branch name or commit message"),
     ] = False,
     skip_merge_commit: Annotated[bool, Option(help="Skip Merge Commit")] = True,
     msg_source: Annotated[
@@ -43,7 +47,6 @@ def prepare_commit_msg(
             envvar="PRE_COMMIT_COMMIT_MSG_SOURCE",
         ),
     ] = None,
-    
 ):
     """Prepare commit message for Jira"""
 
@@ -66,8 +69,7 @@ def prepare_commit_msg(
 
         else:
             commit_msg_file.write_text(f"[{issue_id}] - {commit_msg}")
-    
+
     elif force_issue_id and not JIRA_ISSUE_REGEX.search(commit_msg):
         echo("An issue id is mandatory to commit, please add it to the commit message")
         raise Exit(1)
-    

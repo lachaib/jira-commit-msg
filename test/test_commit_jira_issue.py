@@ -6,7 +6,8 @@ from tempfile import NamedTemporaryFile
 from pytest import mark, param, raises
 from typer import Exit
 
-from jira_commit_msg import prepare_commit_msg, branch_name
+from jira_commit_msg import branch_name, prepare_commit_msg
+
 
 @contextmanager
 def commit_msg_file(source: Path):
@@ -15,6 +16,7 @@ def commit_msg_file(source: Path):
         tmp.seek(0)
         yield Path(tmp.name)
 
+
 @mark.parametrize(
     "force_issue_id,skip_merge_commit",
     [
@@ -22,7 +24,7 @@ def commit_msg_file(source: Path):
         param(True, False, id="force no skip"),
         param(False, True, id="no force skip"),
         param(True, True, id="force skip"),
-    ]
+    ],
 )
 def test_prepare_commit_msg_without_issue_no_cc(force_issue_id, skip_merge_commit):
     """
@@ -35,6 +37,7 @@ def test_prepare_commit_msg_without_issue_no_cc(force_issue_id, skip_merge_commi
 
         assert tmp.read_text() == Path("test/commit-files/commit-msg-with-issue.txt").read_text()
 
+
 @mark.parametrize(
     "force_issue_id,skip_merge_commit",
     [
@@ -42,7 +45,7 @@ def test_prepare_commit_msg_without_issue_no_cc(force_issue_id, skip_merge_commi
         param(True, False, id="force no skip"),
         param(False, True, id="no force skip"),
         param(True, True, id="force skip"),
-    ]
+    ],
 )
 def test_prepare_commit_msg_with_issue_no_cc(force_issue_id, skip_merge_commit):
     """
@@ -51,9 +54,10 @@ def test_prepare_commit_msg_with_issue_no_cc(force_issue_id, skip_merge_commit):
     force_issue_id and skip_merge_commit should not have any effect on the result
     """
     with commit_msg_file(Path("test/commit-files/commit-msg-with-issue.txt")) as tmp:
-        prepare_commit_msg(tmp, "AA-123", False, force_issue_id, skip_merge_commit,  "message")
+        prepare_commit_msg(tmp, "AA-123", False, force_issue_id, skip_merge_commit, "message")
 
         assert tmp.read_text() == Path("test/commit-files/commit-msg-with-issue.txt").read_text()
+
 
 @mark.parametrize(
     "force_issue_id,skip_merge_commit",
@@ -62,16 +66,17 @@ def test_prepare_commit_msg_with_issue_no_cc(force_issue_id, skip_merge_commit):
         param(True, False, id="force no skip"),
         param(False, True, id="no force skip"),
         param(True, True, id="force skip"),
-    ]
+    ],
 )
-def test_prepare_commit_msg_without_issue_cc(force_issue_id,skip_merge_commit):
+def test_prepare_commit_msg_without_issue_cc(force_issue_id, skip_merge_commit):
     """
     Test that the hook adds the issue id to the commit message
     """
     with commit_msg_file(Path("test/commit-files/commit-msg-without-issue-cc.txt")) as tmp:
-        prepare_commit_msg(tmp, "AA-123", True,force_issue_id,skip_merge_commit, "message")
+        prepare_commit_msg(tmp, "AA-123", True, force_issue_id, skip_merge_commit, "message")
 
         assert tmp.read_text() == Path("test/commit-files/commit-msg-with-issue-cc.txt").read_text()
+
 
 @mark.parametrize(
     "force_issue_id,skip_merge_commit",
@@ -80,23 +85,24 @@ def test_prepare_commit_msg_without_issue_cc(force_issue_id,skip_merge_commit):
         param(True, False, id="force no skip"),
         param(False, True, id="no force skip"),
         param(True, True, id="force skip"),
-    ]
+    ],
 )
-def test_prepare_commit_msg_with_issue_cc(force_issue_id,skip_merge_commit):
+def test_prepare_commit_msg_with_issue_cc(force_issue_id, skip_merge_commit):
     """
     Test idempotency of the hook in case the issue is already written in commit
     """
     with commit_msg_file(Path("test/commit-files/commit-msg-with-issue-cc.txt")) as tmp:
-        prepare_commit_msg(tmp, "AA-123", True, force_issue_id,skip_merge_commit, "message")
+        prepare_commit_msg(tmp, "AA-123", True, force_issue_id, skip_merge_commit, "message")
 
         assert tmp.read_text() == Path("test/commit-files/commit-msg-with-issue-cc.txt").read_text()
 
+
 @mark.parametrize(
-        "conventional_commit,filename",
-        [
-            param(True, "test/commit-files/commit-msg-with-issue-cc.txt", id="cc"),
-            param(False, "test/commit-files/commit-msg-with-issue.txt", id="no cc")
-        ]
+    "conventional_commit,filename",
+    [
+        param(True, "test/commit-files/commit-msg-with-issue-cc.txt", id="cc"),
+        param(False, "test/commit-files/commit-msg-with-issue.txt", id="no cc"),
+    ],
 )
 def test_prepare_commit_msg_with_issue_force_issue_id(conventional_commit, filename):
     """
@@ -108,12 +114,13 @@ def test_prepare_commit_msg_with_issue_force_issue_id(conventional_commit, filen
 
         assert tmp.read_text() == Path(filename).read_text()
 
+
 @mark.parametrize(
-        "conventional_commit,filename",
-        [
-            param(True, "test/commit-files/commit-msg-without-issue-cc.txt", id="cc"),
-            param(False, "test/commit-files/commit-msg-without-issue.txt", id="no cc")
-        ]
+    "conventional_commit,filename",
+    [
+        param(True, "test/commit-files/commit-msg-without-issue-cc.txt", id="cc"),
+        param(False, "test/commit-files/commit-msg-without-issue.txt", id="no cc"),
+    ],
 )
 def test_prepare_commit_msg_without_issue_force_issue_id_no_issue(conventional_commit, filename):
     """
@@ -121,7 +128,7 @@ def test_prepare_commit_msg_without_issue_force_issue_id_no_issue(conventional_c
     """
     with commit_msg_file(Path(filename)) as tmp:
         with raises(Exit) as exit:
-            prepare_commit_msg(tmp, "master", conventional_commit, True,True,  "message")
+            prepare_commit_msg(tmp, "master", conventional_commit, True, True, "message")
 
         assert exit.value.exit_code == 1
         # file should be left unchanged
@@ -129,11 +136,11 @@ def test_prepare_commit_msg_without_issue_force_issue_id_no_issue(conventional_c
 
 
 @mark.parametrize(
-        "conventional_commit,filename",
-        [
-            param(True, "test/commit-files/commit-msg-without-issue-cc.txt", id="cc"),
-            param(False, "test/commit-files/commit-msg-without-issue.txt", id="no cc")
-        ]
+    "conventional_commit,filename",
+    [
+        param(True, "test/commit-files/commit-msg-without-issue-cc.txt", id="cc"),
+        param(False, "test/commit-files/commit-msg-without-issue.txt", id="no cc"),
+    ],
 )
 def test_prepare_commit_msg_skip_merge_commits(conventional_commit, filename):
     """
