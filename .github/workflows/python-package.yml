@@ -31,8 +31,8 @@ jobs:
         poetry install --with dev
     - name: Lint
       run: |
-        poetry run black --check
-        poetry run isort --check
+        poetry run black --check src test
+        poetry run isort --check src test
     - name: Test with pytest
       run: |
         poetry run pytest --cov
