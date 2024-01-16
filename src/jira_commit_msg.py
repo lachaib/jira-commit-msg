@@ -15,7 +15,10 @@ def branch_name(repo: Optional[Repo] = None):
     """Get branch name from git repo"""
     if repo is None:
         repo = Repo(Path.cwd())
-    return repo.active_branch.name
+    try:
+        return repo.active_branch.name
+    except TypeError:  # pragma: no cover (CI pull request)
+        return repo.head.name  # (HEAD)
 
 
 @main.command()
