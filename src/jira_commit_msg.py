@@ -3,10 +3,10 @@ from re import compile as regex
 from typing import Optional
 
 from git import Repo
-from typer import Exit, Option, Typer, echo
+from typer import Argument, Exit, Option, Typer, echo
 from typing_extensions import Annotated
 
-main = Typer()
+app = Typer()
 
 JIRA_ISSUE_REGEX = regex(r"(?P<issue_id>[A-Z]+-\d+)")
 
@@ -21,12 +21,11 @@ def branch_name(repo: Optional[Repo] = None):
         return repo.head.name  # (HEAD)
 
 
-@main.command()
+@app.command()
 def prepare_commit_msg(
     commit_msg_file: Annotated[
         Path,
-        Option(
-            "--commit-msg-filename",
+        Argument(
             help="Commit Message File",
             envvar="COMMIT_MSG_FILE",
         ),
@@ -76,3 +75,10 @@ def prepare_commit_msg(
     elif force_issue_id and not JIRA_ISSUE_REGEX.search(commit_msg):
         echo("An issue id is mandatory to commit, please add it to the commit message")
         raise Exit(1)
+
+
+def main():  # pragma: no cover (CLI)
+    import sys
+
+    print(sys.argv)
+    app()
