@@ -21,7 +21,22 @@ Add the following section in your `.pre-commit-config.yaml`
     hooks:
       - id: jira-commit-msg
         args: []
+        stages: [prepare-commit-msg]
 ```
+
+> [!NOTE]
+> In order for this hook to be used, you need to install pre-commit also on the `prepare-commit-msg` hook, either by installing manually `pre-commit install -t prepare-commit-msg` or better, by specifying the install stage so that all users will share the setup:
+> ```yaml
+> default_install_hook_types:
+>  - pre-commit
+>  - prepare-commit-msg
+> ```
+>
+> And as it means other hook would be run for both stages, _which you may want to avoid for performance reasons_, it is recommended to as well update the `default_stage` for which hooks not specifying it are run:
+> ```yaml
+> default_stages:
+>  - pre-commit
+> ``` 
 
 ### Available arguments
 
