@@ -20,7 +20,7 @@ gitpython = "^3.1.41"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
 mypy = "^1.8.0"
-ruff = "^0.1.15"
+ruff = "^0.3.4"
 black = "^24.1.1"
 pytest-coverage = "^0.0"
 pre-commit = "^3.6.0"
