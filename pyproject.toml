@@ -18,7 +18,7 @@ typing-extensions = "^4.12.2"
 gitpython = "^3.1.43"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.3.1"
+pytest = "^8.3.2"
 mypy = "^1.11.0"
 ruff = "^0.5.4"
 black = "^24.4.2"
