@@ -3,12 +3,11 @@ name = "jira-commit-msg"
 version = "0.1.0"
 description = "A pre-commit compliant hook to add JIRA ticket data to commit msg"
 authors = [{ name = "Louis-Amaury Chaib", email = "louisamaury.chaib@gmail.com" }]
-requires-python = ">=3.9,<4"
+requires-python = ">=3.10,<4"
 readme = "README.md"
 license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
