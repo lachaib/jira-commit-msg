@@ -16,23 +16,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
     - uses: actions/checkout@v6
-    - uses: Gr1N/setup-poetry@v9
+    - name: Setup UV
+      uses: astral-sh/setup-uv@v7
+      with:
+        enable-cache: true
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
-        cache: poetry
     - name: Install dependencies
       run: |
-        poetry install --with dev
+        uv sync --locked
     - name: Lint
       run: |
-        poetry run black --check src test
-        poetry run isort --check src test
+        uv run black --check src test
+        uv run isort --check src test
     - name: Test with pytest
       run: |
-        poetry run pytest --cov
+        uv run pytest --cov

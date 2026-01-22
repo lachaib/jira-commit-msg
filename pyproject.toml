@@ -1,34 +1,44 @@
-[tool.poetry]
+[project]
 name = "jira-commit-msg"
 version = "0.1.0"
 description = "A pre-commit compliant hook to add JIRA ticket data to commit msg"
-authors = ["Louis-Amaury Chaib <louisamaury.chaib@gmail.com>"]
-license = "MIT"
+authors = [{ name = "Louis-Amaury Chaib", email = "louisamaury.chaib@gmail.com" }]
+requires-python = ">=3.9,<4"
 readme = "README.md"
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "typer>=0.21.1,<0.22",
+    "typing-extensions>=4.15.0,<5",
+    "gitpython>=3.1.46,<4",
+]
 
-packages = [{include = "*.py", from = "src"}]
+[project.scripts]
+jira-commit-msg = "jira_commit_msg:app"
 
-[tool.poetry.scripts]
-jira-commit-msg = "jira_commit_msg:main"
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2,<9",
+    "mypy>=1.19.1,<2",
+    "ruff>=0.14.13,<0.15",
+    "black>=25.11.0,<26",
+    "pytest-coverage>=0.0,<0.1",
+    "pre-commit>=4.3.0,<5",
+    "isort>=6.1.0,<7",
+]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-typer = "^0.21.1"
-typing-extensions = "^4.15.0"
-gitpython = "^3.1.46"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.4.2"
-mypy = "^1.19.1"
-ruff = "^0.14.13"
-black = "^25.11.0"
-pytest-coverage = "^0.0"
-pre-commit = "^4.3.0"
-isort = "^6.1.0"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.9.26,<0.10.0"]
+build-backend = "uv_build"
 
 [tool.pytest.ini_options]
 addopts = "-vv"

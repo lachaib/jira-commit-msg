@@ -75,10 +75,3 @@ def prepare_commit_msg(
     elif force_issue_id and not JIRA_ISSUE_REGEX.search(commit_msg):
         echo("An issue id is mandatory to commit, please add it to the commit message")
         raise Exit(1)
-
-
-def main():  # pragma: no cover (CLI)
-    import sys
-
-    print(sys.argv)
-    app()
