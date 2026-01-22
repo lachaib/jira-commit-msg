@@ -33,8 +33,8 @@ jobs:
         uv sync --locked
     - name: Lint
       run: |
-        uv run black --check src test
-        uv run isort --check src test
+        uv run ruff format --check
+        uv run ruff check
     - name: Test with pytest
       run: |
         uv run pytest --cov

@@ -1,17 +1,16 @@
 from pathlib import Path
 from re import compile as regex
-from typing import Optional
+from typing import Annotated
 
 from git import Repo
 from typer import Argument, Exit, Option, Typer, echo
-from typing_extensions import Annotated
 
 app = Typer()
 
 JIRA_ISSUE_REGEX = regex(r"(?P<issue_id>[A-Z]+-\d+)")
 
 
-def branch_name(repo: Optional[Repo] = None):
+def branch_name(repo: Repo | None = None) -> str:
     """Get branch name from git repo"""
     if repo is None:
         repo = Repo(Path.cwd())
@@ -22,7 +21,7 @@ def branch_name(repo: Optional[Repo] = None):
 
 
 @app.command()
-def prepare_commit_msg(
+def prepare_commit_msg(  # noqa: PLR0913
     commit_msg_file: Annotated[
         Path,
         Argument(
@@ -42,14 +41,14 @@ def prepare_commit_msg(
     ] = False,
     skip_merge_commit: Annotated[bool, Option(help="Skip Merge Commit")] = True,
     msg_source: Annotated[
-        Optional[str],
+        str | None,
         Option(
             "--commit-msg-source",
             help="Message Source (second argument passed to prepare-commit-msg)",
             envvar="PRE_COMMIT_COMMIT_MSG_SOURCE",
         ),
     ] = None,
-):
+) -> None:
     """Prepare commit message for Jira"""
 
     if skip_merge_commit and msg_source == "merge":

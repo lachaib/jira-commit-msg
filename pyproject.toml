@@ -16,7 +16,6 @@ classifiers = [
 ]
 dependencies = [
     "typer>=0.21.1,<0.22",
-    "typing-extensions>=4.15.0,<5",
     "gitpython>=3.1.46,<4",
 ]
 
@@ -28,10 +27,8 @@ dev = [
     "pytest>=8.4.2,<9",
     "mypy>=1.19.1,<2",
     "ruff>=0.14.13,<0.15",
-    "black>=25.11.0,<26",
     "pytest-coverage>=0.0,<0.1",
     "pre-commit>=4.3.0,<5",
-    "isort>=6.1.0,<7",
 ]
 
 
@@ -57,9 +54,17 @@ fail_under = 100
 skip_empty = true
 skip_covered = true
 
-[tool.black]
+[tool.ruff]
 line-length = 100
 
-[tool.isort]
-line_length = 100
-profile = "black"
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["D", "FBT", "COM812"]
+
+[tool.ruff.lint.per-file-ignores]
+"test/**" = [
+    "S101", # use of assert
+    "ANN201",  # missing return type annotations,
+    
+    "INP001", 
+]
