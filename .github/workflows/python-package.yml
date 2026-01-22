@@ -35,6 +35,7 @@ jobs:
       run: |
         uv run ruff format --check
         uv run ruff check
+        uv run ty check
     - name: Test with pytest
       run: |
         uv run pytest --cov
