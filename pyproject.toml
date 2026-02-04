@@ -25,7 +25,7 @@ jira-commit-msg = "jira_commit_msg:app"
 [dependency-groups]
 dev = [
     "pytest>=8.4.2,<10",
-    "ruff>=0.14.13,<0.15",
+    "ruff>=0.14.13,<0.16",
     "pytest-coverage>=0.0,<0.1",
     "pre-commit>=4.3.0,<5",
     "ty>=0.0.13",
