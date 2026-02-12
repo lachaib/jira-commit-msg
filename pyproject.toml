@@ -15,7 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "typer>=0.21.1,<0.22",
+    "typer>=0.21.1,<0.24",
     "gitpython>=3.1.46,<4",
 ]
 
