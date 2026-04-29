@@ -16,7 +16,7 @@ classifiers = [
 ]
 dependencies = [
     "typer>=0.25.0,<0.26",
-    "gitpython>=3.1.47,<4",
+    "gitpython>=3.1.49,<4",
 ]
 
 [project.scripts]
