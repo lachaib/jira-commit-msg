@@ -37,7 +37,7 @@ repos:
         types_or: [python, pyi]
       - id: pytest-check
         name: pytest-check
-        entry: pytest
+        entry: uv run pytest
         args: ["--cov"]
         language: system
         pass_filenames: false
