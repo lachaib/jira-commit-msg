@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Compute and report dependency updates
-        uses: lachaib/lockdelta@v0.1.0
+        uses: lachaib/lockdelta@v0
         with:
           post-comment: if-changed
         env:
