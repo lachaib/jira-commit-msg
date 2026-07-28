@@ -1,3 +1,4 @@
+# Copyright (c) 2026 Louis-Amaury Chaib
 from contextlib import contextmanager
 from pathlib import Path
 from subprocess import check_output

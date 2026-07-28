@@ -1,3 +1,4 @@
+# Copyright (c) 2026 Louis-Amaury Chaib
 from pathlib import Path
 from re import compile as regex
 from typing import Annotated
@@ -21,7 +22,7 @@ def branch_name(repo: Repo | None = None) -> str:
 
 
 @app.command()
-def prepare_commit_msg(  # noqa: PLR0913
+def prepare_commit_msg(  # noqa: PLR0913,PLR0917
     commit_msg_file: Annotated[
         Path,
         Argument(
