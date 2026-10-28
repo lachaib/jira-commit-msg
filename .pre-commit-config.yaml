@@ -31,7 +31,7 @@ repos:
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version synced with uv.lock via sync-with-uv
-    rev: v0.17.2
+    rev: v0.17.3
     hooks:
       - id: ruff-check
         args: ["--fix"]
