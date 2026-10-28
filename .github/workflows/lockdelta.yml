@@ -14,8 +14,16 @@ jobs:
 
     steps:
       - name: Compute and report dependency updates
-        uses: lachaib/lockdelta@v0.1.10
+        id: lockdelta
+        uses: lachaib/lockdelta@v0.1
         with:
           post-comment: if-changed
         env:
           GITHUB_TOKEN: ${{github.token}}
+      - name: Scan for sensitive dependency updates
+        uses: lachaib/lockscan@v0.1
+        with:
+          lockdelta-output: ${{ steps.lockdelta.outputs.diff }}
+          only: added,updated
+          post-comment: if-findings
+          fail-on: critical
