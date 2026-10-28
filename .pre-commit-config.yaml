@@ -1,6 +1,14 @@
 ---
+default_install_hook_types:
+  - pre-commit
+  - prepare-commit-msg
+  - post-checkout
+  - post-merge
+default_stages:
+  - pre-commit
+
 default_language_version:
-  python: python3.12
+  python: python3.14
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -21,20 +29,34 @@ repos:
       - id: forbid-new-submodules
       - id: mixed-line-ending
 
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version synced with uv.lock via sync-with-uv
+    rev: v0.17.2
+    hooks:
+      - id: ruff-check
+        args: ["--fix"]
+      - id: ruff-format
+
+  - repo: https://github.com/astral-sh/ty-pre-commit
+    # ty version.
+    rev: v0.0.91
+    hooks:
+      - id: ty
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.9.26
+    hooks:
+      - id: uv-lock
+      - id: uv-sync
+
+  - repo: https://github.com/tsvikas/sync-with-uv
+    rev: v0.5.0
+    hooks:
+      - id: sync-with-uv
+
   - repo: local
     hooks:
-      - id: black
-        name: black
-        entry: black
-        language: python
-        pass_filenames: true
-        types_or: [python, pyi]
-      - id: isort
-        name: isort
-        entry: isort
-        language: python
-        pass_filenames: true
-        types_or: [python, pyi]
       - id: pytest-check
         name: pytest-check
         entry: uv run pytest
