@@ -22,7 +22,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{github.token}}
       - name: Scan for sensitive dependency updates
-        uses: lachaib/lockscan@v0.1
+        uses: lachaib/lockscan@v0.2
         with:
           lockdelta-output: ${{ steps.lockdelta.outputs.diff }}
           only: added,updated
